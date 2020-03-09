@@ -53,13 +53,14 @@ Here is a link to video I made about the process for getting a mongodb.com accou
 
 ### Final steps ###
 
-Now you need to install all of python packages you need.  To do this, open the terminal via your editor 
-(Atom or visual code studio - I definitely recommend using Visual Code Studio) and run the following
-two commands:
+Now you need to install all of python packages you need.  To do this, open the terminal in Visual Studio Code. If it is not
+already open then go to the Terminal menu and choose "New Terminal". If the terminal is set to "powershell" pull down the 
+terminal menu and choose "select default shell" then pick "Command Prompt" from the menu that opens at the top of your screen. 
+Then click the trash can in the terminal window pane and then open a new terminal. Now type the following command:
 
-conda activate
-pip install -r requirements.txt
+pip install --user -r requirements.txt
 
 You should be ready to go!
 
-To run your app simply run the main.py file with the python command
+Then click on the main.py file. You might get a popup window asking you to install pythin. Do that. Then in the top left of 
+your screen you should see a green triangle. Click it to run the app. Weeeeeeeeeeeee!!!!
