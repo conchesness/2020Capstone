@@ -256,7 +256,12 @@ def authorize():
         # re-prompting the user for permission. Recommended for web server apps.
         access_type='offline',
         # Enable incremental authorization. Recommended as a best practice.
-        include_granted_scopes='true')
+        include_granted_scopes='true',
+        # Force the Google Account picker even if there is only one account. This is 
+        # because a user can login as a non-ousd user but not be allowed access to anything
+        # so it becomes difficult to login with an OUSD account after that if you have one.
+        prompt='select_account'
+        )
 
     # Store the state so the callback can verify the auth server response.
     session['state'] = state
