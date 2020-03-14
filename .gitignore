@@ -131,3 +131,6 @@ dmypy.json
 
 # Other
 *.code-workspace
+
+# CapstoneTemplate
+credentials.json
