@@ -13,7 +13,8 @@ from app.classes.forms import PostForm, CommentForm
 from requests_oauth2.services import GoogleClient
 from requests_oauth2 import OAuth2BearerToken
 import requests
-import datetime
+import datetime as dt
+from bson import ObjectId
 
 @app.route('/posts')
 def posts():
@@ -36,7 +37,6 @@ def newcomment(postId):
     if form.validate_on_submit():
         newComment = Comment(
             comment=form.comment.data, 
-            createdate=datetime.datetime.now(), 
             user=ObjectId(session['currUserId']),
             post=post.id
         )
@@ -76,7 +76,6 @@ def newpost(jobid="none",feedbackid="none"):
         newPost = Post(
             subject=form.subject.data, 
             body=form.body.data, 
-            createdate=datetime.datetime.now(), 
             user=ObjectId(session['currUserId'])
         )
         newPost.save()
@@ -102,7 +101,7 @@ def editpost(postId):
             editPost.update(
                 subject=form.subject.data,
                 body=form.body.data,
-                modifydate=datetime.datetime.now()
+                modifydate=dt.datetime.utcnow()
             )
             editPost.reload()
             flash('The post has been edited.')

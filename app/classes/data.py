@@ -12,6 +12,7 @@ job of making it easy to to do the basic stuff
 # which simply means that you use '()' after the field name like 'StringField()'. You can find all of the mongoengine fields here
 # http://docs.mongoengine.org/apireference.html#fields
 from mongoengine import Document, StringField, IntField, BooleanField, ReferenceField, EmbeddedDocumentField, DateTimeField, DateField, EmailField, URLField, ListField, CASCADE
+import datetime as d
 
 # This class is what creates the databse document where all user information is stored.
 class User(Document):
@@ -59,7 +60,7 @@ class Feedback(Document):
     author = ReferenceField(User,reverse_delete_rule=CASCADE)
     # These fields are updated not by the user but by the code in the feedback.py routes file specifically in the
     # /newfeedback and /updatefeedback routes
-    createdate = DateTimeField()
+    createdate = DateTimeField(default=d.datetime.utcnow)
     modifydate = DateTimeField()
     # This is a stringField() and not a url field because it is not a full URL. This field is designed to be an identifyier
     # of the page that the feedback is about.
@@ -79,19 +80,22 @@ class Feedback(Document):
         'ordering': ['+status','+priority', '+createdate']
     }
 
-# a post can be any communication from the website user.  Comments, the next class in this file, is a comment
+# a post can be any communication from the website user.  Comments, 
+# the next class in this file, is a comment
 # on a post.
 class Post(Document):
-    subject = StringField()
-    body = StringField()
-    createdate = DateTimeField()
-    modifydate = DateTimeField()
-    # A post is created by a user (maybe 'author' would be a better name for this field). This field is a 
+    # A post is created by a user (maybe 'author' would be a better 
+    # name for this field). This field is a 
     # ReferenceField() back to the user document.
     user = ReferenceField(User,reverse_delete_rule=CASCADE)
-    # Because posts in this site are always related to fedback records, there is a RefereceFireld that connects 
+    # Because posts in this site are always related to fedback records, 
+    # there is a RefereceFireld that connects 
     # posts to Feedbacks.  
     feedback = ReferenceField(Feedback)
+    subject = StringField()
+    body = StringField()
+    createdate = DateTimeField(default=d.datetime.utcnow)
+    modifydate = DateTimeField()
 
     meta = {
         'ordering': ['+createdate']
@@ -100,7 +104,7 @@ class Post(Document):
 # Comments are always comments on posts so they are always related to posts.
 class Comment(Document):
     comment = StringField()
-    createdate = DateTimeField()
+    createdate = DateTimeField(default=d.datetime.utcnow)
     modifydate = DateTimeField
     # REference to the post
     post = ReferenceField(Post,reverse_delete_rule=CASCADE)

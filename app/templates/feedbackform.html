@@ -19,9 +19,9 @@
 
             <form method=post>
                 <table class="table">
-                <!--This displays the form from the form abject that was passed to the template. If the fileds have values in them
-                    that were set by the routes code, then it will be editing.  If they are empty it 
-                    will create a new secion. -->
+                <!--This displays the form from the form 0bject that was passed to the template. If the fileds 
+                    have values in themthat were set by the routes code, then it will be editing.  If they are 
+                    empty it will create a new secion. -->
                 <tr><td>{{ form.hidden_tag() }}{{ form.subject.label }}</td><td>{{ form.subject() }}</td></tr>
                 {% if session.admin %}
                     <tr><td>{{ form.priority.label }}</td><td>{{ form.priority() }}</td></tr>
