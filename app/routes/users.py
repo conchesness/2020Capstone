@@ -37,18 +37,6 @@ CLIENT_SECRETS_FILE = "credentials.json"
 # List of email addresses for Admin users
 admins = ['stephen.wright@ousd.org','s_your.name@ousd.org']
 
-# This code is run right after the app starts up and then not again. It defines a few universal things
-# like is the app being run on a local computer and what is the local timezone
-@app.before_first_request
-def before_first_request():
-
-    if request.url_root[8:11] == '127' or request.url_root[8:17] == 'localhost':
-        session['devenv'] = True
-        session['localtz'] = 'America/Los_Angeles'
-    else:
-        session['devenv'] = False
-        session['localtz'] = 'UTC'
-
 # This runs before every route and serves to make sure users are using a secure site and can only
 # access pages they are allowed to access
 @app.before_request
