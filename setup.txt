@@ -16,8 +16,11 @@ already open then go to the Terminal menu and choose "New Terminal". If the term
 terminal menu and choose "select default shell" then pick "Command Prompt" from the menu that opens at the top of your screen. 
 Then click the trash can in the terminal window pane and then open a new terminal. Now type the following commands:
 
-conda activate base
-pip install --user -r requirements.txt
+conda create --name capstone 
+conda activate capstone
+conda install pip
+pip install -r requirements.txt
+(if you are on a computer that you do not have administrative access you may need to do: pip install --user -r requirements.txt)
 
 You should see several packages being downloaded and installed.
 You can check to see if it worked by clicking on the main.py to the left and then clicking the play button 
