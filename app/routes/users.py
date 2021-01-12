@@ -56,7 +56,8 @@ def before_request():
     # a authorization process.
     try: 
         session['return_URL']
-    except:
+    except KeyError:
+        flash(f"Setting Return URL to '/'.")
         session['return_URL'] = '/'
     
     if request.path not in unauthPaths:
@@ -109,21 +110,13 @@ def login():
 
     try:
         # see if the user already exists in the user dtabase document. If they don't then this attempt
-        # to create a currUser object from the User class in the data.py file will fail 
+        # to find a User object with this current user's Google ID will fail. If it failes, then the code will jump to the 
+        # Except below.  If it is successful then it will skip the except section and jump to the "else" part below
         currUser = User.objects.get(gid = data['emailAddresses'][0]['metadata']['source']['id'])
-        flash(f'Welcome Back! {currUser.fname}')
-        # Check the email address in the data object to see if it is in the admins list and update the users
-        # database record if needed.
-        if data['emailAddresses'][0]['value'] in admins:
-            admin = True
-            if currUser.admin == False:
-                currUser.update(admin=True)
-        else:
-            admin = False
-            if currUser.admin == True:
-                currUser.update(admin=False)
         
-    except:
+    except Exception as error:
+        flash(error)
+        flash("We have created a new user for you in the Database. Welcome!")
         # If the user was not in the database, then set some variables and create them
         # first decide if they are a student or a teacher by checking the front of their email address
         if data['emailAddresses'][0]['value'][0:2] == 's_':
@@ -156,6 +149,19 @@ def login():
         currUser = User.objects.get(gid = data['emailAddresses'][0]['metadata']['source']['id'])
         # send the new user a msg
         flash(f'Welcome {currUser.fname}.  A New user has been created for you.')
+    # This else is from the Try
+    else:
+        flash(f'Welcome Back! {currUser.fname}')
+        # Check the email address in the data object to see if it is in the admins list and update the users
+        # database record if needed.
+        if data['emailAddresses'][0]['value'] in admins:
+            admin = True
+            if currUser.admin == False:
+                currUser.update(admin=True)
+        else:
+            admin = False
+            if currUser.admin == True:
+                currUser.update(admin=False)
 
     # this code puts several values in the session list variable.  The session variable is a great place
     # to store values that you want to be able to access while a user is logged in. The va;ues in the sesion

@@ -39,7 +39,9 @@ def feedback(feedbackid):
     # part will set fbackposts to 'none'.  If the try does not fail, it will put all of the posts in the fbackposts object.
     try:
         fbackposts = Post.objects(feedback = feedbackid)
-    except:
+    except Exception as error:
+        flash(error)
+        flash("There are no posts attached to this feedback item.")
         fbackposts = None
     # the next line ends the function and calls for the feedback.html template and sends several variables
     # that can then be displayed on the template.
